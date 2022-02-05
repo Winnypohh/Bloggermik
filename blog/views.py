@@ -35,7 +35,6 @@ class PostDetail(View):
         )
 
     def post(self, request, slug, *args, **kwargs):
-
         queryset = Post.objects.filter(status=1)
         post = get_object_or_404(queryset, slug=slug)
         comments = post.comments.filter(approved=True).order_by("-created_on")
@@ -66,13 +65,14 @@ class PostDetail(View):
         )
 
 
-class PostLike(View):
+class POstLike(View):
 
-    def post(self, request, slug, *args, **kwargs):
+    def post(self, request, slug):
         post = get_object_or_404(Post, slug=slug)
 
         if post.likes.filter(id=request.user.id).exists():
             post.likes.remove(request.user)
+
         else:
             post.likes.add(request.user)
 
